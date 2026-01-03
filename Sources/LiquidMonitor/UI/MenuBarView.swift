@@ -10,9 +10,7 @@ struct MenuBarView: View {
             Text("RAM: \(String(format: "%.1f GB", hardwareMonitor.stats.ramUsage))")
             Divider()
             Button("Open Dashboard") {
-                if let appDelegate = NSApp.delegate as? AppDelegate {
-                    appDelegate.showWindow()
-                }
+                NSApp.activate(ignoringOtherApps: true)
             }
             Button("Quit") {
                 NSApplication.shared.terminate(nil)
