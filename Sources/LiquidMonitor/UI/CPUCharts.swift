@@ -14,16 +14,18 @@ struct CPUCoresChart: View {
     var body: some View {
         MetricCard(title: "CPU Cores", value: "\(history.count) Cores", icon: "cpu") {
             VStack(alignment: .leading, spacing: 16) {
-                // Efficiency Cores Section
+                // Efficiency Cluster
                 if eCoreCount > 0 {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Efficiency")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .padding(.leading, 4)
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack {
+                            Image(systemName: "leaf.fill")
+                                .foregroundStyle(.green)
+                            Text("Efficiency Cluster")
+                                .font(.headline)
+                        }
+                        .padding(.horizontal, 4)
                         
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 70, maximum: 90), spacing: 12)], spacing: 12) {
-                            // E-Cores are typically first (0 to eCoreCount-1)
                             ForEach(0..<min(eCoreCount, currentLoadPerCore.count), id: \.self) { index in
                                 GaugeMetricView(
                                     title: "E\(index + 1)",
@@ -33,18 +35,23 @@ struct CPUCoresChart: View {
                             }
                         }
                     }
+                    .padding()
+                    .background(Color(nsColor: .controlBackgroundColor).opacity(0.5))
+                    .cornerRadius(12)
                 }
                 
-                // Performance Cores Section
+                // Performance Cluster
                 if pCoreCount > 0 {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Performance")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .padding(.leading, 4)
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack {
+                            Image(systemName: "bolt.fill")
+                                .foregroundStyle(.orange)
+                            Text("Performance Cluster")
+                                .font(.headline)
+                        }
+                        .padding(.horizontal, 4)
                         
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 70, maximum: 90), spacing: 12)], spacing: 12) {
-                            // P-Cores are typically after E-Cores (eCoreCount to end)
                             ForEach(0..<pCoreCount, id: \.self) { i in
                                 let index = eCoreCount + i
                                 if index < currentLoadPerCore.count {
@@ -57,6 +64,9 @@ struct CPUCoresChart: View {
                             }
                         }
                     }
+                    .padding()
+                    .background(Color(nsColor: .controlBackgroundColor).opacity(0.5))
+                    .cornerRadius(12)
                 }
             }
             .padding(.top, 8)

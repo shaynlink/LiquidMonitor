@@ -134,24 +134,33 @@ class ProcessProvider: ObservableObject {
     }
 
     private func addToHistory(from apps: [RunningProcessInfo]) {
-        // Sort by CPU
-        let sorted = apps.sorted { $0.cpuUsage > $1.cpuUsage }
+        // Group by name first
+        var appGroups: [String: Double] = [:]
+        for app in apps {
+            appGroups[app.name, default: 0] += app.cpuUsage
+        }
         
-        // Take Top 5
+        // Convert back to sorting array
+        let sortedGroups = appGroups.map { (name, usage) in
+            (name: name, usage: usage)
+        }.sorted { $0.usage > $1.usage }
+        
+        
+        // Take Top 5 from grouped apps
         var finalUsage: [AppSnapshot.AppUsage] = []
-        let top5 = sorted.prefix(5)
+        let top5 = sortedGroups.prefix(5)
         
         for app in top5 {
             finalUsage.append(AppSnapshot.AppUsage(
                 name: app.name,
-                value: app.cpuUsage,
+                value: app.usage,
                 color: Color.distinct(seed: app.name)
             ))
         }
         
         // Others
-        if sorted.count > 5 {
-             let othersTotal = sorted.dropFirst(5).reduce(0) { $0 + $1.cpuUsage }
+        if sortedGroups.count > 5 {
+             let othersTotal = sortedGroups.dropFirst(5).reduce(0) { $0 + $1.usage }
              if othersTotal > 0.1 {
                  finalUsage.append(AppSnapshot.AppUsage(
                     name: "Others",
