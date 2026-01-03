@@ -6,6 +6,8 @@
 
 **LiquidMonitor** is a specialized monitoring tool designed for macOS.
 
+![LiquidMonitor Overview](docs/overview-app.png)
+
 ## ⚠️ Hardware Compatibility & Restrictions
 
 **Crucial Notice:** This software is explicitly developed and optimized for:
