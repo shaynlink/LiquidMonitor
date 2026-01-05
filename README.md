@@ -36,6 +36,10 @@ This project is licensed under the **PolyForm Noncommercial License 1.0.0**.
 
 See [LICENSE.md](LICENSE.md) for the full license text.
 
+## 🌐 Community
+
+Join us on [Discord : https://discord.gg/2Akw3qdB5F](https://discord.gg/2Akw3qdB5F)
+
 ## Copyright
 
 Copyright © 2026 Shayn. All rights reserved.
